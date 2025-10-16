@@ -1,0 +1,40 @@
+{
+  "shadowdark-encounter-timer": {
+    "settings": {
+      "timerDuration": {
+        "name": "Timer Duration (minutes)",
+        "hint": "How long the countdown timer should run before triggering an encounter check"
+      },
+      "pauseOnCombat": {
+        "name": "Pause on Combat Start",
+        "hint": "Automatically pause the timer when combat begins"
+      },
+      "resumeAfterCombat": {
+        "name": "Resume After Combat",
+        "hint": "Automatically resume the timer when combat ends"
+      },
+      "advanceCrawlRound": {
+        "name": "Advance Crawl Round on Timer End",
+        "hint": "When enabled and in a crawl combat, the crawl round will advance by 1 when the timer completes (Crawl Helper handles encounter checks). When disabled or outside crawl combat, directly triggers an encounter check via Crawl Helper."
+      },
+      "showToPlayers": {
+        "name": "Show Timer to Players",
+        "hint": "Allow players to see the countdown timer (they won't see control buttons)"
+      }
+    },
+    "ui": {
+      "title": "Shadowdark Encounter Timer",
+      "start": "Start",
+      "pause": "Pause",
+      "reset": "Reset",
+      "autoRestart": "Auto-Restart",
+      "notVisibleToPlayers": "Timer not visible to players"
+    },
+    "notifications": {
+      "crawlHelperNotActive": "Shadow Dark Crawl Helper is not active. Enable it to automatically roll encounters.",
+      "crawlHelperNotFound": "Crawl Helper GM Tools not found. Please ensure the Crawl Helper is initialized.",
+      "errorAdvancingRound": "Failed to advance crawl round. See console for details.",
+      "errorTriggeringEncounter": "Failed to trigger encounter check. See console for details."
+    }
+  }
+}

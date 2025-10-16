@@ -1,0 +1,27 @@
+<div class="shadowdark-encounter-timer-container">
+  <div class="timer-display">
+    <div class="time-text">{{timeDisplay}}</div>
+    <div class="progress-bar">
+      <div class="progress-fill" style="width: {{progress}}%"></div>
+    </div>
+  </div>
+
+  {{#if isGM}}
+  <div class="timer-controls">
+    <button class="start-pause-btn" type="button">
+      <i class="fas {{#if isRunning}}fa-pause{{else}}fa-play{{/if}}"></i>
+      {{#if isRunning}}{{localize "shadowdark-encounter-timer.ui.pause"}}{{else}}{{localize "shadowdark-encounter-timer.ui.start"}}{{/if}}
+    </button>
+    <button class="reset-btn" type="button">
+      <i class="fas fa-redo"></i>
+      {{localize "shadowdark-encounter-timer.ui.reset"}}
+    </button>
+  </div>
+  <div class="timer-options">
+    <button class="auto-restart-toggle {{#if autoRestart}}active{{/if}}" type="button" title="{{localize "shadowdark-encounter-timer.ui.autoRestart"}}">
+      <i class="fas fa-sync-alt"></i>
+      {{localize "shadowdark-encounter-timer.ui.autoRestart"}}
+    </button>
+  </div>
+  {{/if}}
+</div>
