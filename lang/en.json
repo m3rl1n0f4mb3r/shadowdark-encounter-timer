@@ -13,6 +13,14 @@
         "name": "Resume After Combat",
         "hint": "Automatically resume the timer when combat ends"
       },
+      "pauseOnGamePause": {
+        "name": "Pause on Game Pause",
+        "hint": "Automatically pause the timer when the game is paused"
+      },
+      "resumeAfterGamePause": {
+        "name": "Resume After Game Unpause",
+        "hint": "Automatically resume the timer when the game is unpaused"
+      },
       "advanceCrawlRound": {
         "name": "Advance Crawl Round on Timer End",
         "hint": "When enabled and in a crawl combat, the crawl round will advance by 1 when the timer completes (Crawl Helper handles encounter checks). When disabled or outside crawl combat, directly triggers an encounter check via Crawl Helper."
