@@ -2,14 +2,15 @@
   "id": "shadowdark-encounter-timer",
   "title": "Shadowdark Encounter Timer",
   "description": "Countdown timer that automatically triggers random encounter checks using Shadow Dark Crawl Helper",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "compatibility": {
     "minimum": "13",
     "verified": "13"
   },
   "authors": [
     {
-      "name": "Merle Corey"
+      "name": "Merle Corey",
+      "discord": "m3rl1n0f4mb3r"
     }
   ],
   "esmodules": [

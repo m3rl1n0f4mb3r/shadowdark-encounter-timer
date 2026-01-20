@@ -30,6 +30,7 @@ class ShadowdarkEncounterTimerApp extends foundry.applications.api.HandlebarsApp
     this.intervalId = null;
     this.lastUpdate = null;
     this.wasAutoPaused = false; // Track if paused by combat
+    this.wasGamePaused = false; // Track if paused by Foundry game pause
     this.autoRestart = true;
   }
 
@@ -107,8 +108,9 @@ class ShadowdarkEncounterTimerApp extends foundry.applications.api.HandlebarsApp
   }
 
   startTimer() {
-    // Clear auto-pause flag when manually starting
+    // Clear auto-pause flags when manually starting
     this.wasAutoPaused = false;
+    this.wasGamePaused = false;
 
     if (this.timeRemaining === 0) {
       // Initialize timer with duration from settings
@@ -185,9 +187,36 @@ class ShadowdarkEncounterTimerApp extends foundry.applications.api.HandlebarsApp
     }
   }
 
+  handleGamePause() {
+    const pauseOnGamePause = game.settings.get(
+      "shadowdark-encounter-timer",
+      "pauseOnGamePause"
+    );
+
+    if (pauseOnGamePause && this.isRunning) {
+      log(false, "Auto-pausing for game pause");
+      this.wasGamePaused = true;
+      this.pauseTimer();
+    }
+  }
+
+  handleGameUnpause() {
+    const resumeAfterGamePause = game.settings.get(
+      "shadowdark-encounter-timer",
+      "resumeAfterGamePause"
+    );
+
+    if (resumeAfterGamePause && this.wasGamePaused && !this.isRunning) {
+      log(false, "Auto-resuming after game unpause");
+      this.wasGamePaused = false;
+      this.startTimer();
+    }
+  }
+
   resetTimer() {
     this.isRunning = false;
     this.wasAutoPaused = false;
+    this.wasGamePaused = false;
     this.timeRemaining = 0;
     this.totalTime = 0;
 
@@ -439,6 +468,32 @@ Hooks.once("init", () => {
     default: true,
   });
 
+  game.settings.register("shadowdark-encounter-timer", "pauseOnGamePause", {
+    name: game.i18n.localize(
+      "shadowdark-encounter-timer.settings.pauseOnGamePause.name"
+    ),
+    hint: game.i18n.localize(
+      "shadowdark-encounter-timer.settings.pauseOnGamePause.hint"
+    ),
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true,
+  });
+
+  game.settings.register("shadowdark-encounter-timer", "resumeAfterGamePause", {
+    name: game.i18n.localize(
+      "shadowdark-encounter-timer.settings.resumeAfterGamePause.name"
+    ),
+    hint: game.i18n.localize(
+      "shadowdark-encounter-timer.settings.resumeAfterGamePause.hint"
+    ),
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true,
+  });
+
   game.settings.register("shadowdark-encounter-timer", "advanceCrawlRound", {
     name: game.i18n.localize(
       "shadowdark-encounter-timer.settings.advanceCrawlRound.name"
@@ -512,6 +567,18 @@ Hooks.once("ready", () => {
       game.shadowdarkEncounterTimer.wasAutoPaused
     ) {
       game.shadowdarkEncounterTimer.handleCombatEnd();
+    }
+  });
+
+  // Handle Foundry game pause/unpause
+  Hooks.on("pauseGame", (paused) => {
+    log(false, "Game pause state changed:", paused);
+    if (game.shadowdarkEncounterTimer) {
+      if (paused) {
+        game.shadowdarkEncounterTimer.handleGamePause();
+      } else {
+        game.shadowdarkEncounterTimer.handleGameUnpause();
+      }
     }
   });
 });
